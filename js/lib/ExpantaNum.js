@@ -1698,4 +1698,178 @@
   P.clone=function (){
     var temp=new ExpantaNum();
     var array=[];
-    for (var i=0;i<th
+    for (var i=0;i<this.array.length;++i) array.push([this.array[i][0],this.array[i][1]]);
+    temp.array=array;
+    temp.sign=this.sign;
+    temp.layer=this.layer;
+    return temp;
+  };
+  // ExpantaNum methods
+
+  /*
+   *  clone
+   *  config/set
+   */
+
+  /*
+   * Create and return a ExpantaNum constructor with the same configuration properties as this ExpantaNum constructor.
+   *
+   */
+  function clone(obj) {
+    var i, p, ps;
+    function ExpantaNum(input,input2) {
+      var x=this;
+      if (!(x instanceof ExpantaNum)) return new ExpantaNum(input,input2);
+      x.constructor=ExpantaNum;
+      var parsedObject=null;
+      if (typeof input=="string"&&(input[0]=="["||input[0]=="{")){
+        try {
+          parsedObject=JSON.parse(input);
+        }catch(e){
+          //lol just keep going
+        }
+      }
+      var temp,temp2,temp3;
+      if (typeof input=="number"&&!(input2 instanceof Array)){
+        temp=ExpantaNum.fromNumber(input);
+      }else if (typeof input=="bigint"){
+        temp=ExpantaNum.fromBigInt(input);
+      }else if (parsedObject){
+        temp=ExpantaNum.fromObject(parsedObject);
+      }else if (typeof input=="string"&&input[0]=="E"){
+        temp=ExpantaNum.fromHyperE(input);
+      }else if (typeof input=="string"){
+        temp=ExpantaNum.fromString(input);
+      }else if (input instanceof Array||input2 instanceof Array){
+        temp=ExpantaNum.fromArray(input,input2);
+      }else if (input instanceof ExpantaNum){
+        temp=[];
+        for (var i=0;i<input.array.length;++i) temp.push([input.array[i][0],input.array[i][1]]);
+        temp2=input.sign;
+        temp3=input.layer;
+      }else if (typeof input=="object"){
+        temp=ExpantaNum.fromObject(input);
+      }else{
+        temp=[[0,NaN]];
+        temp2=1;
+        temp3=0;
+      }
+      if (typeof temp2=="undefined"){
+        x.array=temp.array;
+        x.sign=temp.sign;
+        x.layer=temp.layer;
+      }else{
+        x.array=temp;
+        x.sign=temp2;
+        x.layer=temp3;
+      }
+      return x;
+    }
+    ExpantaNum.prototype = P;
+
+    ExpantaNum.JSON = 0;
+    ExpantaNum.STRING = 1;
+
+    ExpantaNum.NONE = 0;
+    ExpantaNum.NORMAL = 1;
+    ExpantaNum.ALL = 2;
+
+    ExpantaNum.clone=clone;
+    ExpantaNum.config=ExpantaNum.set=config;
+
+    //ExpantaNum=Object.assign(ExpantaNum,Q);
+    for (var prop in Q){
+      if (Q.hasOwnProperty(prop)){
+        ExpantaNum[prop]=Q[prop];
+      }
+    }
+
+    if (obj === void 0) obj = {};
+    if (obj) {
+      ps = ['maxOps', 'serializeMode', 'debug'];
+      for (i = 0; i < ps.length;) if (!obj.hasOwnProperty(p = ps[i++])) obj[p] = this[p];
+    }
+
+    ExpantaNum.config(obj);
+
+    return ExpantaNum;
+  }
+
+  function defineConstants(obj){
+    for (var prop in R){
+      if (R.hasOwnProperty(prop)){
+        if (Object.defineProperty){
+          Object.defineProperty(obj,prop,{
+            configurable: false,
+            enumerable: true,
+            writable: false,
+            value: new ExpantaNum(R[prop])
+          });
+        }else{
+          obj[prop]=new ExpantaNum(R[prop]);
+        }
+      }
+    }
+    return obj;
+  }
+
+  /*
+   * Configure global settings for a ExpantaNum constructor.
+   *
+   * `obj` is an object with one or more of the following properties,
+   *
+   *   precision  {number}
+   *   rounding   {number}
+   *   toExpNeg   {number}
+   *   toExpPos   {number}
+   *
+   * E.g. ExpantaNum.config({ precision: 20, rounding: 4 })
+   *
+   */
+  function config(obj){
+    if (!obj||typeof obj!=='object') {
+      throw Error(expantaNumError+'Object expected');
+    }
+    var i,p,v,
+      ps = [
+        'maxOps',1,Number.MAX_SAFE_INTEGER,
+        'serializeMode',0,1,
+        'debug',0,2
+      ];
+    for (i = 0; i < ps.length; i += 3) {
+      if ((v = obj[p = ps[i]]) !== void 0) {
+        if (Math.floor(v) === v && v >= ps[i + 1] && v <= ps[i + 2]) this[p] = v;
+        else throw Error(invalidArgument + p + ': ' + v);
+      }
+    }
+
+    return this;
+  }
+
+
+  // Create and configure initial ExpantaNum constructor.
+  ExpantaNum=clone(ExpantaNum);
+
+  ExpantaNum=defineConstants(ExpantaNum);
+
+  ExpantaNum['default']=ExpantaNum.ExpantaNum=ExpantaNum;
+
+  // Export.
+
+  // AMD.
+  if (typeof define == 'function' && define.amd) {
+    define(function () {
+      return ExpantaNum;
+    });
+  // Node and other environments that support module.exports.
+  } else if (typeof module != 'undefined' && module.exports) {
+    module.exports = ExpantaNum;
+    // Browser.
+  } else {
+    if (!globalScope) {
+      globalScope = typeof self != 'undefined' && self && self.self == self
+        ? self : Function('return this')();
+    }
+    globalScope.ExpantaNum = ExpantaNum;
+  }
+})(this);
