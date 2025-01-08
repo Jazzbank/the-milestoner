@@ -1,0 +1,6 @@
+Unorganized todo list.
+
+-> Add points/sec.
+-> Add main upgrade.
+-> Create a function that creates a prompt.
+    createPrompt(htmlText)

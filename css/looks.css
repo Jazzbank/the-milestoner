@@ -1,7 +1,89 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap');
+
+/*
+Font weights:
+    - 400 represents normal text;
+    - 700 represents important text.
+*/
+
+:root {
+    --pointsCol: #cfcfcf;
+    --augmentCol: #4300ae;
+}
+
 body {
-    background-color: black;
+    background-color: rgb(0, 0, 0);
+    margin: auto;
 }
 
 p {
     color: white;
+    margin: auto;
+    font-weight: 400;
+}
+
+button, p, .sectTitle, .sectMain, .sectOther {
+    font-family: "Source Code Pro";
+}
+
+#bar1 {
+    background-color: rgb(31, 31, 31);
+    width: 10%;
+    height: 100%;
+}
+
+#main {
+    background-color: rgb(15, 15, 15);
+    width: 90%;
+    height: 100%;
+}
+
+#everything {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+}
+
+#pointsSection {
+    padding: 5px;
+}
+
+#currSection {
+    height: 3%;
+}
+
+#pointsSection {
+    color: white;
+    background-color: rgb(63, 63, 63);
+    width: 100%;
+    min-height: 70%;
+}
+
+.sectTitle {
+    font-weight: 700;
+    font-size: 24px;
+    text-shadow: 1px 1px 1px;
+}
+
+.sectMain {
+    font-weight: 400;
+    font-size: 18px;
+}
+
+.sectOther {
+    font-weight: 700;
+    font-size: 12px;
+    opacity: 50%;
+}
+
+#apSection {
+    background-color: rgb(38, 0, 76);
+    color: rgb(82, 0, 165);
+}
+
+#mainUpgButton {
+    background-color: rgb(47, 47, 47);
+    border: 2px solid white;
+    color: white;
+    padding: 10px;
 }

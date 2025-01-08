@@ -7,8 +7,31 @@
     </head>
 
     <body>
-        <p>Test paragraph</p>
+        <div id="everything">
+            <div id="bar1">
+                <div id="currSection">
+                    <div id="pointsSection">
+                        <span class="sectTitle">POINTS</span><br>
+                        <span class="sectMain" id="points">0.00</span><br>
+                        <span class="sectOther">0.00/s</span>
+                    </div>
+                </div>
 
+                <!-- <div id="apSection" class="sectionLocked">
+                    <span class="sectTitle">AUGMENTATION POINTS</span><br>
+                    <span class="sectMain">0.00</span><br>
+                    <span class="sectOther">+0.00 on next augmentation</span>
+                </div> -->
+            </div>
+    
+            <div id="main" style="text-align: center;">
+                <br>
+                <p style="font-size: 30px; font-weight: 700">MAIN</p>
+                <br>
+                <button onclick="increment()" id="mainUpgButton">Level <span id="mainUpgLevel">x -> x + 1</span><br><span id="mainUpgCost">10</span> points<br>Increments points by 1 for testing purposes.</button>
+            </div>
+            
+        </div>
 
         <!-- Library files -->
         <script src="js/lib/ExpantaNum.js"></script>
